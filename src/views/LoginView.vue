@@ -38,7 +38,12 @@ export default {
       const api = `${process.env.VUE_APP_API}admin/signin`;
       this.$http.post(api, this.user)
         .then((res) => {
-          console.log(res);
+          if (res.data.success) {
+            const { token, expired } = res.data;
+            document.cookie = `cherishToken=${token}; expires=${new Date(expired)}`;
+            // console.log(res);
+            this.$router.push('/DashboardView/products');
+          }
         });
     },
   },
